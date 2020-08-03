@@ -4,11 +4,11 @@ parameters:
   TargetFileName: ''
 
 steps:
-- task: esfadevops.GenerateEnvironmentConfiguration.custom-build-task.GenerateEnvironmentConfiguration@3
-  displayName: 'Generate Configuration'
-  inputs:
-    ServiceConnectionName: ${{ parameters.AzureSubscription }}
-    SourcePath: ${{ parameters.SourcePath }}
-    TargetFilename: ${{ parameters.TargetFileName }}
-    StorageAccountName: '$(ConfigurationStorageAccountName)'
-    TableName: Configuration
+# - task: esfadevops.GenerateEnvironmentConfiguration.custom-build-task.GenerateEnvironmentConfiguration@3
+#   displayName: 'Generate Configuration'
+#   inputs:
+#     ServiceConnectionName: ${{ parameters.AzureSubscription }}
+#     SourcePath: ${{ parameters.SourcePath }}
+#     TargetFilename: ${{ parameters.TargetFileName }}
+#     StorageAccountName: '$(ConfigurationStorageAccountName)'
+#     TableName: Configuration

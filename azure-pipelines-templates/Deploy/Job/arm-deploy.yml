@@ -7,7 +7,9 @@ parameters:
 jobs:
 - deployment: DeployInfrastructure_${{ parameters.Environment }}
   pool:
-    name: DAS - Continuous Deployment
+    # name: DAS - Continuous Deployment
+    name: 'Azure Pipelines'
+    vmImage: 'windows-2019'
   environment: ${{ parameters.Environment }}
   strategy:
     runOnce:
@@ -39,10 +41,10 @@ jobs:
             overrideParameters: '' # lots of stuff
             deploymentOutputs: ARMOutputs
 
-        - task: esfadevops.ARMTemplateOutputs.custom-build-task.ARMTemplateOutputs@0
-          displayName: Convert ARM Template Outputs to Variables
-          inputs:
-            ARMOutputs: $(ARMOutputs)
+        # - task: esfadevops.ARMTemplateOutputs.custom-build-task.ARMTemplateOutputs@0
+        #   displayName: Convert ARM Template Outputs to Variables
+        #   inputs:
+        #     ARMOutputs: $(ARMOutputs)
 
         - template: ../Step/generate-config.yml
           parameters:
