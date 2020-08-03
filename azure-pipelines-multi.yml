@@ -81,7 +81,7 @@ stages:
   - stage: DeployFindApprenticeshipTraining_AT
     displayName: Deploy Find Apprenticeship Training to AT
     variables:
-    - group: AT DevTestShared Resources
+    - group: AT DevTest Shared Resources
     jobs:
     - template: azure-pipelines-templates/Deploy/Job/app-deploy.yml
       parameters:
