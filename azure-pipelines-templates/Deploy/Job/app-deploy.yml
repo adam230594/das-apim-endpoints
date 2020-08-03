@@ -41,7 +41,7 @@ jobs:
         - task: AzureAppServiceManage@0
           displayName: Start Swap Slots - ${{ parameters.AppServiceName }}
           inputs:
-            azureSubscription: 
+            azureSubscription: ${{ parameters.AzureSubscription }}
             Action: Start Swap With preview
             WebAppName: ${{ parameters.AppServiceName }}
             ResourceGroupName: $(ResourceGroupName)
