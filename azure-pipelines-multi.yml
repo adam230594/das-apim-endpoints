@@ -73,7 +73,7 @@ stages:
     - template: azure-pipelines-templates/Deploy/Job/arm-deploy.yml
       parameters:
         # AzureSubscription: SFA-DAS-DevTest-ARM
-        AzureSubscription: Visual Studio Enterprise
+        AzureSubscription: $(ServiceConnection)
         Environment: AT # TO DO: Investigate purposes of Environments
         ArmTemplatePath: $(Pipeline.Workspace)/ApimEndpointsArtifacts/drop/azure/template.json
         ConfigSchemaPath: $(Pipeline.Workspace)/das-employer-config/Configuration/das-apim-endpoints
@@ -86,6 +86,6 @@ stages:
     - template: azure-pipelines-templates/Deploy/Job/app-deploy.yml
       parameters:
         # AzureSubscription: SFA-DAS-DevTest-ARM
-        AzureSubscription: Visual Studio Enterprise
+        AzureSubscription: $(ServiceConnection)
         Environment: AT # TO DO: Investigate purposes of Environments
         DeploymentPackagePath: $(Pipeline.Workspace)/ApimEndpointsArtifacts/drop/SFA.DAS.FindApprenticeshipTraining.Api.Zip
