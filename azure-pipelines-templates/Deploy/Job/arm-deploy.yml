@@ -38,7 +38,7 @@ jobs:
             resourceGroupName: $(ResourceGroupName)
             location: West Europe
             csmFile: ${{ parameters.ArmTemplatePath }}
-            overrideParameters: '-environmentName $(EnvironmentName) -resourceEnvironmentName $(ResourceEnvironmentName) -serviceName $(ServiceName) -outerApiArray $(OuterApiArray)' # lots of stuff
+            overrideParameters: '-environmentName "$(EnvironmentName)" -resourceEnvironmentName "$(ResourceEnvironmentName)" -serviceName "$(ServiceName)" -outerApiArray "$(OuterApiArray)"' # lots of stuff
             # overrideParameters: '' # lots of stuff
             deploymentOutputs: ARMOutputs
 
