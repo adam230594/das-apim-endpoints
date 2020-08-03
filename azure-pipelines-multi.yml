@@ -66,9 +66,9 @@ stages:
   - stage: DeployInfrastructure_AT
     displayName: Deploy Infrastructure to AT
     variables:
-    - group: AT DevTestShared Resources
+    - group: AT DevTest Shared Resources
     - group: DevTest Management Resources
-    - group: DevTest Wildcard CertVariables
+    # - group: DevTest Wildcard CertVariables
     jobs:
     - template: azure-pipelines-templates/Deploy/Job/arm-deploy.yml
       parameters:
