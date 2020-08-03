@@ -30,7 +30,7 @@ stages:
           useConfigFile: true
           configFilePath: GitVersion.yml
 
-      - template: azure-pipelines-templates/Build/Step/arm-deploy.yml
+      - template: azure-pipelines-templates/Build/Step/app-build.yml
 
       - task: DotNetCoreCLI@2
         displayName: 'Publish FAT Api'
