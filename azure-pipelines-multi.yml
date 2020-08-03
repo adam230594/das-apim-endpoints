@@ -91,4 +91,19 @@ stages:
         # AzureSubscription: SFA-DAS-DevTest-ARM
         AzureSubscription: $(ServiceConnection)
         Environment: AT # TO DO - Investigate purposes of Environments
-        DeploymentPackagePath: $(Pipeline.Workspace)/ApimEndpointsArtifacts/drop/SFA.DAS.FindApprenticeshipTraining.Api.Zip
+        AppServiceName: $(FindApprenticeshipOuterApiAppServiceName)
+        DeploymentPackagePath: $(Pipeline.Workspace)/ApimEndpointsArtifacts/SFA.DAS.FindApprenticeshipTraining.Api.Zip
+
+  - stage: DeployReservations_AT
+    dependsOn: DeployInfrastructure_AT
+    displayName: Deploy Reservations to AT
+    variables:
+    - group: AT DevTest Shared Resources
+    jobs:
+    - template: azure-pipelines-templates/Deploy/Job/app-deploy.yml
+      parameters:
+        # AzureSubscription: SFA-DAS-DevTest-ARM
+        AzureSubscription: $(ServiceConnection)
+        Environment: AT # TO DO - Investigate purposes of Environments
+        AppServiceName: $(ReservationsOuterApiAppServiceName)
+        DeploymentPackagePath: $(Pipeline.Workspace)/ApimEndpointsArtifacts/SFA.DAS.Reservations.Api.Zip        

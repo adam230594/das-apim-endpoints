@@ -1,6 +1,7 @@
 parameters:
   AzureSubscription: ''
   Environment: ''
+  AppServiceName: ''
   DeploymentPackagePath: ''
 
 jobs:
@@ -15,11 +16,11 @@ jobs:
       deploy:
         steps:
         - task: AzureRmWebAppDeployment@3
-          displayName: Deploy Staging Slot - $(AppServiceName)
+          displayName: Deploy Staging Slot - ${{ parameters.AppServiceName }}
           inputs:
             azureSubscription: ${{ parameters.AzureSubscription }}
             appType: webApp
-            WebAppName: $(AppServiceName)
+            WebAppName: ${{ parameters.AppServiceName }}
             DeployToSlotFlag: true
             ResourceGroupName: $(ResourceGroupName)
             SlotName: staging
@@ -28,21 +29,21 @@ jobs:
             RemoveAdditionalFilesFlag: true
 
         - task: AzureAppServiceManage@0
-          displayName: Start Staging Slot - $(AppServiceName)
+          displayName: Start Staging Slot - ${{ parameters.AppServiceName }}
           inputs:
             azureSubscription: ${{ parameters.AzureSubscription }}
             Action: Start
-            WebAppName: $(AppServiceName)
+            WebAppName: ${{ parameters.AppServiceName }}
             ResourceGroupName: $(ResourceGroupName)
             SpecifySlotOrASE: true
             Slot: staging
 
         - task: AzureAppServiceManage@0
-          displayName: Start Swap Slots - $(AppServiceName)
+          displayName: Start Swap Slots - ${{ parameters.AppServiceName }}
           inputs:
             azureSubscription: 
             Action: Start Swap with preview
-            WebAppName: $(AppServiceName)
+            WebAppName: ${{ parameters.AppServiceName }}
             ResourceGroupName: $(ResourceGroupName)
             SourceSlot: staging
 
@@ -51,17 +52,17 @@ jobs:
           inputs:
             azureSubscription: ${{ parameters.AzureSubscription }}
             Action: Complete Swap with preview
-            WebAppName: $(AppServiceName)
+            WebAppName: ${{ parameters.AppServiceName }}
             ResourceGroupName: $(ResourceGroupName)
             SourceSlot: staging
 
         - task: AzureAppServiceManage@0
-          displayName: Stop Staging Slot - $(AppServiceName)
+          displayName: Stop Staging Slot - ${{ parameters.AppServiceName }}
           condition: always()
           inputs:
             azureSubscription:  ${{ parameters.AzureSubscription }}
             Action: Stop Azure App Service
-            WebAppName: $(AppServiceName)
+            WebAppName: ${{ parameters.AppServiceName }}
             SpecifySlotOrASE: true
             ResourceGroupName: $(ResourceGroupName)
             Slot: staging
