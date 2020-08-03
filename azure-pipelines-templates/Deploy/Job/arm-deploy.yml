@@ -44,7 +44,7 @@ jobs:
           inputs:
             ARMOutputs: $(ARMOutputs)
 
-        - template: azure-pipelines-templates/Deploy/Step/generate-config.yml
+        - template: ../Step/generate-config.yml
           parameters:
             AzureSubscription: ${{ parameters.AzureSubscription }}
             SourcePath: ''
