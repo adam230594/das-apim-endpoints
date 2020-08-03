@@ -75,10 +75,10 @@ stages:
       parameters:
         # AzureSubscription: SFA-DAS-DevTest-ARM
         AzureSubscription: $(ServiceConnection)
-        Environment: AT # TO DO: Investigate purposes of Environments
-        # ArmTemplatePath: $(Pipeline.Workspace)/ApimEndpointsArtifacts/drop/azure/template.json
-        ArmTemplatePath: $(Pipeline.Workspace)/ApimEndpointsArtifacts/drop/azure/template.min.json
-        ConfigSchemaPath: $(Pipeline.Workspace)/das-employer-config/Configuration/das-apim-endpoints
+        Environment: AT # TO DO - Investigate purposes of Environments
+        # ArmTemplatePath: $(Pipeline.Workspace)/ApimEndpointsArtifacts/azure/template.json
+        ArmTemplatePath: $(Pipeline.Workspace)/ApimEndpointsArtifacts/azure/template.min.json
+        #ConfigSchemaPath: $(Pipeline.Workspace)/das-employer-config/Configuration/das-apim-endpoints
 
   - stage: DeployFindApprenticeshipTraining_AT
     dependsOn: DeployInfrastructure_AT
@@ -90,5 +90,5 @@ stages:
       parameters:
         # AzureSubscription: SFA-DAS-DevTest-ARM
         AzureSubscription: $(ServiceConnection)
-        Environment: AT # TO DO: Investigate purposes of Environments
+        Environment: AT # TO DO - Investigate purposes of Environments
         DeploymentPackagePath: $(Pipeline.Workspace)/ApimEndpointsArtifacts/drop/SFA.DAS.FindApprenticeshipTraining.Api.Zip
