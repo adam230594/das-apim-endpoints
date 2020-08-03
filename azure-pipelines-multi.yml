@@ -11,16 +11,16 @@ resources:
   - repository: self
     
 stages:
-  - stage: 'Build'
+  - stage: Build
     variables:
     - name: buildConfiguration
-      value: 'release'
+      value: release
     jobs:
-    - job: 'CodeBuild'
+    - job: CodeBuild
       pool:
-        # name: 'DAS - Continuous Integration'
-        name: 'Azure Pipelines'
-        vmImage: 'windows-2019'
+        # name: DAS - Continuous Integration
+        name: Azure Pipelines
+        vmImage: windows-2019
       workspace:
         clean: all  
       steps:
@@ -64,6 +64,7 @@ stages:
           artifactName: 'ApimEndpointsArtifacts'
 
   - stage: DeployInfrastructure_AT
+    dependsOn: Build
     displayName: Deploy Infrastructure to AT
     variables:
     - group: AT DevTest Shared Resources
@@ -75,10 +76,12 @@ stages:
         # AzureSubscription: SFA-DAS-DevTest-ARM
         AzureSubscription: $(ServiceConnection)
         Environment: AT # TO DO: Investigate purposes of Environments
-        ArmTemplatePath: $(Pipeline.Workspace)/ApimEndpointsArtifacts/drop/azure/template.json
+        # ArmTemplatePath: $(Pipeline.Workspace)/ApimEndpointsArtifacts/drop/azure/template.json
+        ArmTemplatePath: $(Pipeline.Workspace)/ApimEndpointsArtifacts/drop/azure/template.min.json
         ConfigSchemaPath: $(Pipeline.Workspace)/das-employer-config/Configuration/das-apim-endpoints
 
   - stage: DeployFindApprenticeshipTraining_AT
+    dependsOn: DeployInfrastructure_AT
     displayName: Deploy Find Apprenticeship Training to AT
     variables:
     - group: AT DevTest Shared Resources
