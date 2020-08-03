@@ -11,23 +11,7 @@ resources:
   - repository: self
     
 stages:
-  - stage: Test
-    variables:
-    - group: AT DevTest Shared Resources
-    jobs: 
-    - job: inline
-      pool:        
-        name: Azure Pipelines
-        vmImage: windows-2019
-      steps:
-      - task: PowerShell@2        
-        displayName: Inline Script
-        inputs:
-          targetType: 'inline'
-          script: Write-Host $(ResourceEnvironmentName)
-
   - stage: Build
-    condition: failed()
     variables:
     - name: buildConfiguration
       value: release
@@ -38,7 +22,7 @@ stages:
         name: Azure Pipelines
         vmImage: windows-2019
       workspace:
-        clean: all  
+        clean: all
       steps:
       - task: UseGitVersion@5
         displayName: GitVersion
