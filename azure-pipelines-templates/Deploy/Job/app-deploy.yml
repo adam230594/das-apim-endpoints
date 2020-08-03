@@ -42,7 +42,7 @@ jobs:
           displayName: Start Swap Slots - ${{ parameters.AppServiceName }}
           inputs:
             azureSubscription: ${{ parameters.AzureSubscription }}
-            Action: Start Swap With preview
+            Action: Start Swap With Preview
             WebAppName: ${{ parameters.AppServiceName }}
             ResourceGroupName: $(ResourceGroupName)
             SourceSlot: staging
