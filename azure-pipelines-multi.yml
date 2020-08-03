@@ -1,0 +1,88 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - "master"
+
+pr: none
+
+resources:
+  repositories:
+  - repository: self
+    
+stages:
+  - stage: 'Build'
+    variables:
+    - name: buildConfiguration
+      value: 'release'
+    jobs:
+    - job: 'CodeBuild'
+      pool:
+        name: 'Azure Pipelines'
+        vmImage: 'windows-2019'       
+      workspace:
+        clean: all  
+      steps:
+      - task: UseGitVersion@5
+        displayName: GitVersion
+        inputs:
+          versionSpec: 5.x
+          useConfigFile: true
+          configFilePath: GitVersion.yml
+
+      - template: azure-pipelines-templates/Build/Step/arm-deploy.yml
+
+      - task: DotNetCoreCLI@2
+        displayName: 'Publish FAT Api'
+        inputs:
+          command: publish
+          publishWebProjects: false
+          projects: 'src/SFA.DAS.FindApprenticeshipTraining.Api/SFA.DAS.FindApprenticeshipTraining.Api.csproj'
+          arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)/publish --no-restore --no-build'
+      
+      - task: DotNetCoreCLI@2
+        displayName: 'Publish Reservations Api'
+        inputs:
+          command: publish
+          publishWebProjects: false
+          projects: 'src/SFA.DAS.Reservations.Api/SFA.DAS.Reservations.Api.csproj'
+          arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)/publish --no-restore --no-build'     
+      
+      - task: CopyFiles@2
+        displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+        inputs:
+          Contents: |
+            azure/**
+          TargetFolder: '$(build.artifactstagingdirectory)/publish'
+          OverWrite: true
+
+      - task: PublishPipelineArtifact@1
+        displayName: 'Publish Artifact'
+        inputs:
+          targetPath: '$(build.artifactstagingdirectory)/publish'
+          artifactName: 'ApimEndpointsArtifacts'
+
+  - stage: DeployInfrastructure_AT
+    displayName: Deploy Infrastructure to AT
+    variables:
+    - group: AT DevTestShared Resources
+    - group: DevTest Management Resources
+    - group: DevTest Wildcard CertVariables
+    jobs:
+    - template: azure-pipelines-templates/Deploy/Job/arm-deploy.yml
+      parameters:
+        AzureSubscription: SFA-DAS-DevTest-ARM
+        Environment: AT # TO DO: Investigate purposes of Environments
+        ArmTemplatePath: $(Pipeline.Workspace)/ApimEndpointsArtifacts/drop/azure/template.json
+        ConfigSchemaPath: $(Pipeline.Workspace)/das-employer-config/Configuration/das-apim-endpoints
+
+  - stage: DeployFindApprenticeshipTraining_AT
+    displayName: Deploy Find Apprenticeship Training to AT
+    variables:
+    - group: AT DevTestShared Resources
+    jobs:
+    - template: azure-pipelines-templates/Deploy/Job/app-deploy.yml
+      parameters:
+        AzureSubscription: SFA-DAS-DevTest-ARM
+        Environment: AT # TO DO: Investigate purposes of Environments
+        DeploymentPackagePath: $(Pipeline.Workspace)/ApimEndpointsArtifacts/drop/SFA.DAS.FindApprenticeshipTraining.Api.Zip
