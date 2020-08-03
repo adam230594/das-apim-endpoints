@@ -46,8 +46,8 @@ jobs:
         #   inputs:
         #     ARMOutputs: $(ARMOutputs)
 
-        - template: ../Step/generate-config.yml
-          parameters:
-            AzureSubscription: ${{ parameters.AzureSubscription }}
-            SourcePath: ''
-            TargetFileName: '*.schema.json'
+        # - template: ../Step/generate-config.yml
+        #   parameters:
+        #     AzureSubscription: ${{ parameters.AzureSubscription }}
+        #     SourcePath: ''
+        #     TargetFileName: '*.schema.json'
