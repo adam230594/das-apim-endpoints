@@ -32,7 +32,7 @@ jobs:
           displayName: Start Staging Slot - ${{ parameters.AppServiceName }}
           inputs:
             azureSubscription: ${{ parameters.AzureSubscription }}
-            Action: Start
+            Action: Start Azure App Service
             WebAppName: ${{ parameters.AppServiceName }}
             ResourceGroupName: $(ResourceGroupName)
             SpecifySlotOrASE: true
@@ -42,7 +42,7 @@ jobs:
           displayName: Start Swap Slots - ${{ parameters.AppServiceName }}
           inputs:
             azureSubscription: 
-            Action: Start Swap with preview
+            Action: Start Swap With preview
             WebAppName: ${{ parameters.AppServiceName }}
             ResourceGroupName: $(ResourceGroupName)
             SourceSlot: staging
@@ -51,7 +51,7 @@ jobs:
           displayName: Complete Swap Slot
           inputs:
             azureSubscription: ${{ parameters.AzureSubscription }}
-            Action: Complete Swap with preview
+            Action: Complete Swap
             WebAppName: ${{ parameters.AppServiceName }}
             ResourceGroupName: $(ResourceGroupName)
             SourceSlot: staging
