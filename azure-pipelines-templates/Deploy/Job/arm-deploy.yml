@@ -15,21 +15,21 @@ jobs:
     runOnce:
       deploy:
         steps:
-        - task: DownloadGitHubRelease@0
-          displayName: Download das-platform-automation Github Artifact
-          inputs:
-            connection: GitHub (SFA)
-            userRepository: SkillsFundingAgency/das-platform-automation
-            defaultVersionType: specificTag
-            version: 4.0.3
+        # - task: DownloadGitHubRelease@0
+        #   displayName: Download das-platform-automation Github Artifact
+        #   inputs:
+        #     connection: GitHub (SFA)
+        #     userRepository: SkillsFundingAgency/das-platform-automation
+        #     defaultVersionType: specificTag
+        #     version: 4.0.3
 
-        - task: AzurePowerShell@5
-          displayName: 'Create and Tag Resource Group'
-          inputs:
-            azureSubscription: ${{ parameters.AzureSubscription }}
-            ScriptPath: $(System.ArtifactsDirectory)/das-platform-automation/Set-AzResourceGroupTags.ps1
-            ScriptArguments: '-ResourceGroupName "$(ResourceGroupName)" -Tags "$(Tags)"'
-            azurePowerShellVersion: LatestVersion
+        # - task: AzurePowerShell@5
+        #   displayName: 'Create and Tag Resource Group'
+        #   inputs:
+        #     azureSubscription: ${{ parameters.AzureSubscription }}
+        #     ScriptPath: $(System.ArtifactsDirectory)/das-platform-automation/Set-AzResourceGroupTags.ps1
+        #     ScriptArguments: '-ResourceGroupName "$(ResourceGroupName)" -Tags "$(Tags)"'
+        #     azurePowerShellVersion: LatestVersion
 
         - task: AzureResourceGroupDeployment@2
           displayName: Azure Deployment - Deploy resources to $(ResourceGroupName)
